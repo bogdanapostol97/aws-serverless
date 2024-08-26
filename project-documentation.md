@@ -188,6 +188,7 @@ This serverless file sharing platform offers a cost-effective and scalable solut
 
 **Key benefits of the serverless application in real-world scenarios:**
 
+
 - Scalability: The platform can automatically scale to handle varying workloads, ensuring high availability and performance even during peak traffic.
 - Cost-efficiency: Serverless architecture eliminates the need to pay for idle resources, making it cost-effective for applications with fluctuating workloads.
 - Reduced maintenance: The platform handles server management and infrastructure updates, freeing developers to focus on application development.

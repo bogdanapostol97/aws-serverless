@@ -36,10 +36,20 @@ The platform utilizes the following AWS services:
 - In the AWS Management Console, navigate to the S3 service.
 - Create a new bucket to store uploaded files.
 
+![image](https://github.com/user-attachments/assets/9e770b76-b157-4b06-aa66-b3e5722222e3)
+
+
+**Note:** 
+
+- I kept the public access as blocked for now.
+
+![image](https://github.com/user-attachments/assets/fd4b7571-0bdf-4acb-ab40-d949870cb93f)
 
 2. Develop Lambda Functions:
 
 - Implement the UploadFunction and DownloadFunction logic in your preferred language (e.g., Python, Node.js). These functions should handle file uploads and downloads from the S3 bucket respectively.
+
+- You can check the code logic in the repository.
 
 3. Create Lambda Functions:
 
@@ -48,17 +58,46 @@ The platform utilizes the following AWS services:
     - Name: UploadFunction
     - Runtime: Select your preferred language runtime environment (e.g., Python 3.x)
     - Execution role: Create an IAM role with S3 PutObject permission for uploads.
+
+![image](https://github.com/user-attachments/assets/a2d55405-43c3-4686-b119-be3c21659d75)
+
+**Trigger for upload function:**
+
+![image](https://github.com/user-attachments/assets/33e1e3ed-bd56-4197-952e-ad9ca67c34df)
+
+
 - Upload your function code.
 - Repeat for the DownloadFunction with S3 GetObject permission.
+
+![image](https://github.com/user-attachments/assets/627984d1-03e9-47c5-992a-01705e31b97d)
+
+**Trigger for download function:**
+
+![image](https://github.com/user-attachments/assets/6b1d9a31-baa6-4682-bb05-b5d1874b74dd)
+
+
+**Note:** I attached to the lambda functions the followings:
+
+- A role that will allow the lambda function to get, put and list objects from/to the S3 bucket.
+
+![image](https://github.com/user-attachments/assets/9a1d15cd-1d93-4a72-ac83-c15c37246762)
+
+- A trust relationship that will allow the lambda functions to assume the above role.
+
+![image](https://github.com/user-attachments/assets/fdfd2620-c94f-4885-af8f-e2a5ad91cfd4)
 
 4. Create API Gateway:
 
 - In the AWS Management Console, navigate to the API Gateway service.
 - Create a new API and name it appropriately (e.g., "file-sharing-api").
+
+![image](https://github.com/user-attachments/assets/d19808fb-cd40-4e94-8f22-79870ac36b17)
+
 - Create a resource named "files" with two methods:
     - Method: POST - integrates with UploadFunction for uploads.
     - Method: GET - integrates with DownloadFunction for downloads.
 
+![image](https://github.com/user-attachments/assets/8002ba54-99e1-453b-8c22-ab471b3f3523)
 
 5. Configure API Methods:
 
@@ -67,6 +106,28 @@ For each method (POST and GET):
 - Under "Integration Request," map request body and query parameters to function calls.
 - For the POST method, configure the request body to pass the uploaded file content and filename to the UploadFunction.
 - For the GET method, configure the query string parameter to pass the filename to the DownloadFunction for retrieval.
+
+**GET:**
+
+Method request
+
+![image](https://github.com/user-attachments/assets/0d292bb3-4b16-4036-976a-3001a537c9c0)
+
+![image](https://github.com/user-attachments/assets/0c425d41-f94f-4cb6-a7f1-a403930ae3ae)
+
+Integration request
+
+![image](https://github.com/user-attachments/assets/a24e2545-cddf-4c7b-9ef9-5b38852f03c5)
+
+Integration reponses
+
+![image](https://github.com/user-attachments/assets/635e7ffb-0b3b-49bd-93c8-fb83e1d2aa9c)
+
+**POST:**
+
+Everything by default except the change below in Integration request:
+
+![image](https://github.com/user-attachments/assets/c23ab193-9a2e-4b12-806f-29ca31288bd0)
 
 
 6. Deploy API Gateway:
@@ -77,13 +138,41 @@ Deploy the API to a stage (e.g., "dev") to make it publicly accessible.
 
 Use an HTTP client like Postman or CURL to interact with the API.
 
-Upload a file:
+**Upload a file:**
 - Use a POST request to the "/files" endpoint.
 - Specify the filename in the query string parameter and the file content in the request body.
 
-Download a file:
+![image](https://github.com/user-attachments/assets/23f8d363-ad5c-4395-bb8c-e80a9403550a)
+
+![image](https://github.com/user-attachments/assets/12bf33b1-0499-4cf7-afc4-047f51200f7a)
+
+![image](https://github.com/user-attachments/assets/6d943213-e10d-492b-8000-7eb13835bde4)
+
+Running the curl command in the command line: 
+
+![image](https://github.com/user-attachments/assets/3ec0507f-3494-4fb9-9238-780b19f39051)
+
+Checking the S3 bucket after running the above command:
+
+![image](https://github.com/user-attachments/assets/3bef54fd-7d40-41fb-a273-4bc9736d82a6)
+
+And the content of the file: 
+
+![image](https://github.com/user-attachments/assets/31bf3de6-d4e7-4601-93ab-1b8c3b24a846)
+
+**Download a file:**
 - Use a GET request to the "/files" endpoint.
 - Specify the filename in the query string parameter.
+
+![image](https://github.com/user-attachments/assets/ae345678-b6f5-44fb-8a5b-83f14e58f888)
+
+Running the curl command in the command line:
+
+![image](https://github.com/user-attachments/assets/d4de39cb-48b8-4489-ac34-9b3466454e40)
+
+Decoding from Base64 to make sure the result is as expected.
+
+![image](https://github.com/user-attachments/assets/ca443f5d-5199-4707-a1ab-c6b13c2b8b0c)
 
 
 <h2> Security Considerations </h2>

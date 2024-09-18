@@ -1,12 +1,12 @@
-<Disclaimer>
+<h1> Secure file sharing platform on AWS </h1>
+
+This document details the architecture and deployment process for a serverless file sharing platform that allows users to securely upload and download files through a simple HTTP API.
+
+<h2> Disclaimer </h2>
 
 Many thanks to the guidance offered in the laboratory: https://www.youtube.com/watch?v=TkEubrv8gA0
 
 The documentation is customized with my implementation and how I solved the issues that have appeared along the way.
-
-<h1> Secure file sharing platform on AWS </h1>
-
-This document details the architecture and deployment process for a serverless file sharing platform that allows users to securely upload and download files through a simple HTTP API.
 
 <h2> Introduction </h2>
 
